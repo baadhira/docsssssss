@@ -1,11 +1,115 @@
-The announcement of Create React App's deprecation marks a significant shift in the React ecosystem. While CRA has served as a reliable foundation for many developers, the landscape of frontend development is rapidly evolving, and it's crucial to adapt to these changes.
-
-Why the Shift?As applications grow in complexity, the need for faster build times and more efficient tooling has become paramount. Modern alternatives like Vite and Next.js not only address these performance concerns but also offer enhanced features that cater to the needs of contemporary web applications.
-
-Exploring Alternatives:
-
-Vite: Known for its incredible speed, Vite leverages native ES modules and provides an instant server start, making it ideal for development. Its plugin ecosystem is also growing, allowing for easy integration of various tools and libraries.
-Next.js: This framework is perfect for building production-ready applications with features like static site generation, server-side rendering, and API routes. It’s particularly beneficial for projects that require SEO optimization and improved performance.
-Remix: A newer contender, Remix focuses on providing a seamless user experience by optimizing data loading and routing. It encourages developers to think about the user journey, making it a great choice for dynamic applications.
-Astro: For those looking to build content-focused sites, Astro allows developers to create fast, optimized websites by shipping less JavaScript. It’s a game-changer for static sites and offers a unique approach to component rendering.
-As we bid farewell to CRA, it's an opportunity for developers to explore these modern tools that can enhance productivity and performance. Embracing these alternatives not only prepares us for the future of web development but also empowers us to create more efficient and scalable applications.
+event loop
+diff task queues associated with event loop
+Macro Tasks: Larger tasks like I/O operations, timers, and UI rendering. Executed one at a time.
+Micro Tasks: Smaller tasks like promise callbacks. Executed immediately after the current script and before the next macro task.
+The event loop processes these queues in a specific order, ensuring that micro tasks are prioritized over macro tasks. This allows for efficient handling of asynchronous operations in JavaScript.
+prototype
+inbuilt methods for string
+prototype of return lastFour characters in a string:-
+String.prototype.lastFour=function(){
+    return this.slice(-4);
+}
+let str='abcdefghijk';
+console.log(str.lastFour())
+ 
+String.prototype.lastFour=function(){
+    return this.substring(this.length-4);
+}
+let str='abcdefghijklmno';
+console.log(str.lastFour())
+ 
+shallowcopy and deepcopy
+In JavaScript, the concepts of shallow copy and deep copy refer to how objects and arrays are copied. Understanding the difference between these two types of copying is crucial for managing data structures effectively, especially when dealing with nested objects or arrays.
+ 
+### Shallow Copy
+ 
+A **shallow copy** creates a new object or array, but it only copies the references to the nested objects or arrays. This means that if the original object or array contains other objects or arrays, the shallow copy will reference the same nested objects or arrays rather than creating new copies of them.
+ 
+#### How to Create a Shallow Copy
+ 
+1. **Using `Object.assign()`**:
+   ```javascript
+   const original = { a: 1, b: { c: 2 } };
+   const shallowCopy = Object.assign({}, original);
+ 
+   shallowCopy.b.c = 3; // Modifying the nested object
+   console.log(original.b.c); // Output: 3 (original is affected)
+   ```
+ 
+2. **Using the Spread Operator**:
+   ```javascript
+   const original = { a: 1, b: { c: 2 } };
+   const shallowCopy = { ...original };
+ 
+   shallowCopy.b.c = 3; // Modifying the nested object
+   console.log(original.b.c); // Output: 3 (original is affected)
+   ```
+ 
+3. **Using `Array.prototype.slice()` for Arrays**:
+   ```javascript
+   const originalArray = [1, 2, { a: 3 }];
+   const shallowCopyArray = originalArray.slice();
+ 
+   shallowCopyArray[2].a = 4; // Modifying the nested object
+   console.log(originalArray[2].a); // Output: 4 (original is affected)
+   ```
+ 
+### Deep Copy
+ 
+A **deep copy** creates a new object or array and recursively copies all nested objects or arrays. This means that the new object or array is completely independent of the original, and changes to the nested objects in the deep copy do not affect the original.
+ 
+#### How to Create a Deep Copy
+ 
+1. **Using `JSON.parse()` and `JSON.stringify()`**:
+   This is a common method for deep copying objects, but it has limitations (e.g., it does not copy functions, `undefined`, or special objects like `Date`).
+   ```javascript
+   const original = { a: 1, b: { c: 2 } };
+   const deepCopy = JSON.parse(JSON.stringify(original));
+ 
+   deepCopy.b.c = 3; // Modifying the nested object
+   console.log(original.b.c); // Output: 2 (original is unaffected)
+   ```
+ 
+2. **Using a Recursive Function**:
+   You can create a custom function to perform a deep copy.
+   ```javascript
+   function deepCopy(obj) {
+       if (obj === null || typeof obj !== 'object') {
+           return obj; // Return the value if obj is not an object
+       }
+ 
+       if (Array.isArray(obj)) {
+           const copy = [];
+           for (let i = 0; i < obj.length; i++) {
+               copy[i] = deepCopy(obj[i]); // Recursively copy each element
+           }
+           return copy;
+       }
+ 
+       const copy = {};
+       for (const key in obj) {
+           if (obj.hasOwnProperty(key)) {
+               copy[key] = deepCopy(obj[key]); // Recursively copy each property
+           }
+       }
+       return copy;
+   }
+ 
+   const original = { a: 1, b: { c: 2 } };
+   const deepCopyObj = deepCopy(original);
+ 
+   deepCopyObj.b.c = 3; // Modifying the nested object
+   console.log(original.b.c); // Output: 2 (original is unaffected)
+   ```
+ 
+### Summary
+ 
+- **Shallow Copy**: Copies the top-level properties and references to nested objects. Changes to nested objects in the copy affect the original.
+- **Deep Copy**: Creates a completely independent copy of the object, including all nested objects. Changes to nested objects in the copy do not affect the original.
+ 
+Understanding the difference between shallow and deep copies is essential for managing state and data structures effectively in JavaScript applications.
+ 
+closure:
+In simpler terms, a closure is created when a function is defined inside another function, and the inner function references variables from the outer function's scope.
+ 
+setstate is synchronous or asynchrounous
